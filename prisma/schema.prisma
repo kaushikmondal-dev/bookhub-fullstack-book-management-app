@@ -29,6 +29,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  books         Book[]
 
   @@unique([email])
   @@map("user")
@@ -80,4 +81,23 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Book {
+  id            String @id @default(uuid())
+  title         String
+  author        String
+  image         String @unique
+  isbn          String @unique
+  price         Float
+  publishedYear Int
+  pages         Int
+  language      String @default("English")
+  description   String
+  category      String
+  createdById   String
+  createdBy     User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([createdById])
+  @@map("book")
 }
