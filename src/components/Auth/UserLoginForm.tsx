@@ -23,7 +23,7 @@ import { toast } from "../shadcnui/toast";
 
 const UserLoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { replace } = useRouter();
+  const { replace, refresh } = useRouter();
   const {
     handleSubmit,
     control,
@@ -56,6 +56,7 @@ const UserLoginForm = () => {
         title: "Login Successfull !!✅",
       });
       replace("/");
+      refresh();
     }
     setIsLoading(false);
   };
@@ -70,13 +71,12 @@ const UserLoginForm = () => {
           type="button"
           variant="outline"
           className="flex w-full items-center justify-center gap-2"
-          //   onClick={() =>
-          //     authClient.signIn.social({
-          //       provider: "google",
-          //       callbackURL: "/",
-          //     })
-          //   }
-        >
+          onClick={() =>
+            authClient.signIn.social({
+              provider: "google",
+              callbackURL: "/",
+            })
+          }>
           <FcGoogle />
           <span>Login with Google</span>
         </Button>

@@ -54,3 +54,55 @@ export const registerFormSchema = z
     path: ["confirmPassword"],
   });
 export type RegisterFormType = z.infer<typeof registerFormSchema>;
+
+//--------Book Schema ----------//
+export const bookFormSchema = z.object({
+  // image: z.string().trim().min(1, { error: "Image URL is required" }),
+  title: z
+    .string()
+    .trim()
+    .min(1, { error: "Title is required" })
+    .max(120, { error: "Title must not exceed 120 characters" })
+    .regex(/^[A-Za-z ]+$/, { error: "Only English letters allowed" }),
+
+  author: z
+    .string()
+    .trim()
+    .min(1, { error: "Author is required" })
+    .max(80, { error: "Author must not exceed 80 characters" })
+    .regex(/^[A-Za-z ]+$/, { error: "Only English letters allowed" }),
+
+  publishedYear: z.coerce
+    .number({ message: "Published year must be a number" })
+    .int("Published year must be a whole number")
+    .min(1000, "Year must be at least 1000")
+    .max(new Date().getFullYear(), "Year cannot be in the future"),
+
+  price: z.coerce
+    .number({ error: "Price must be a number" })
+    .positive({ error: "Price must be a positive number" }),
+
+  pages: z.coerce
+    .number({ error: "Pages must be a number" })
+    .int({ error: "Pages must be a whole number" })
+    .positive({ error: "Pages must be greater than 0" }),
+
+  language: z
+    .string()
+    .trim()
+    .min(1, { error: "Language is required" })
+    .max(30, { error: "Language must not exceed 30 characters" })
+    .regex(/^[A-Za-z ]+$/, { error: "Only English letters allowed" }),
+
+  category: z
+    .string({ error: "Must select book category" })
+    .min(1, "Must select book category"),
+
+  description: z
+    .string()
+    .trim()
+    .min(10, { error: "Description must be at least 10 characters" })
+    .max(2000, { error: "Description must not exceed 2000 characters" }),
+});
+
+export type BookFormType = z.infer<typeof bookFormSchema>;
