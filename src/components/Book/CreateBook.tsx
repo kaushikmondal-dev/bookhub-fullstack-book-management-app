@@ -389,7 +389,7 @@ const CreateBook = ({}: CreateBookProps) => {
         <Button
           type="submit"
 
-          className="w-full bg-linear-to-r from-indigo-500 via-sky-500 to-emerald-400 font-semibold text-white shadow-lg shadow-sky-500/20 transition-all hover:opacity-90 sm:col-span-2"
+          className="w-full bg-teal-400 font-semibold text-black sm:col-span-2"
           size="lg"
           disabled={isSubmitting || !isFile}>
           {isLoading ?

@@ -68,7 +68,7 @@ const page = async () => {
                   href="/user-profile/update"
                   className={cn(
                     buttonVariants({ size: "lg" }),
-                    "bg-linear-to-r from-indigo-500 via-sky-500 to-emerald-400 font-semibold text-white shadow-lg shadow-sky-500/20 transition-all hover:scale-[1.02] hover:opacity-90 sm:mb-2",
+                    "bg-teal-400 font-semibold text-black hover:bg-teal-500 sm:mb-2",
                   )}>
                   <UserPen />
                   Update Profile

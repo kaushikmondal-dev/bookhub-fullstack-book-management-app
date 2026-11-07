@@ -28,7 +28,7 @@ const NavLinks = () => {
         Books
       </Link>
 
-      <Link
+      {/* <Link
         href="/"
         className={`transition-colors ${
           pathname.startsWith("/category") ? "text-green-400" : (
@@ -36,7 +36,7 @@ const NavLinks = () => {
           )
         }`}>
         Category
-      </Link>
+      </Link> */}
     </nav>
   );
 };

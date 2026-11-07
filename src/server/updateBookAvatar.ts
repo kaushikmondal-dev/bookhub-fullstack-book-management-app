@@ -65,6 +65,8 @@ const updateBookAvatar = async (
     });
 
     revalidatePath("/");
+
+    revalidatePath(`/book/${bookId}`);
     return {
       isSuccess: true,
       msg: "Book Update successfull ✅",

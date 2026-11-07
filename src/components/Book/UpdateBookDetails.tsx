@@ -1,7 +1,354 @@
 "use client";
 
-const UpdateBookDetails = () => {
-  return <div>Enter</div>;
+import { bookFormSchema, BookFormType } from "@/lib/zodSchema";
+import updateBookDetails from "@/server/updateBookDetails";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2Icon, PenIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "../shadcnui/button";
+import { CardContent, CardFooter } from "../shadcnui/card";
+import { Field, FieldContent, FieldError, FieldLabel } from "../shadcnui/field";
+import { Input } from "../shadcnui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../shadcnui/select";
+import { Textarea } from "../shadcnui/textarea";
+import { toast } from "../shadcnui/toast";
+
+type UpdateBookDetailsProps = {
+  bookId: string;
+  bookData: BookFormType;
+};
+
+const UpdateBookDetails = ({ bookData, bookId }: UpdateBookDetailsProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const {} = useRouter();
+
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting, isDirty },
+  } = useForm({
+    resolver: zodResolver(bookFormSchema),
+    defaultValues: {
+      title: bookData.title,
+      author: bookData.author,
+      language: bookData.language,
+      category: bookData.category,
+      pages: bookData.pages,
+      price: bookData.price,
+      publishedYear: bookData.publishedYear,
+      description: bookData.description,
+    },
+    mode: "all",
+  });
+
+  const updateBookDetailsHandler = async (bookData: BookFormType) => {
+    setIsLoading(true);
+    await new Promise<void>((resolve) => setTimeout(resolve, 1000));
+    const { isSuccess, msg } = await updateBookDetails(bookId, bookData);
+
+    if (isSuccess) {
+      toast.add({ title: msg, type: "success" });
+    } else {
+      toast.add({ title: msg, type: "error" });
+    }
+
+    setIsLoading(false);
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(updateBookDetailsHandler)}
+      className="grid gap-4"
+      noValidate>
+      <CardContent className="grid grid-cols-2">
+        <div className="col-span-2 flex gap-4">
+          <div className="space-y-4">
+            <div className="flex gap-7">
+              <Controller
+                name="title"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Book Name</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="text"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Book Name"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                name="author"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Author</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="text"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Author Name"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </div>
+            <div className="flex gap-7">
+              <Controller
+                name="language"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Language</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="text"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Language"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                name="category"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field
+                    orientation="responsive"
+                    data-invalid={fieldState.invalid}>
+                    <FieldContent>
+                      <FieldLabel htmlFor="form-rhf-select-language">
+                        Category
+                      </FieldLabel>
+
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                    </FieldContent>
+                    <Select
+                      name={field.name}
+                      value={field.value}
+                      onValueChange={field.onChange}>
+                      <SelectTrigger
+                        id="form-rhf-select-language"
+                        aria-invalid={fieldState.invalid}>
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Fiction">Fiction</SelectItem>
+                        <SelectItem value="Non-Fiction">Non-Fiction</SelectItem>
+                        <SelectItem value="Fantasy">Fantasy</SelectItem>
+                        <SelectItem value="Science-Fiction">
+                          Science Fiction
+                        </SelectItem>
+                        <SelectItem value="Mystery">Mystery</SelectItem>
+                        <SelectItem value="Thriller">Thriller</SelectItem>
+                        <SelectItem value="Romance">Romance</SelectItem>
+                        <SelectItem value="Horror">Horror</SelectItem>
+                        <SelectItem value="Historical-Fiction">
+                          Historical Fiction
+                        </SelectItem>
+                        <SelectItem value="Literary-Fiction">
+                          Literary Fiction
+                        </SelectItem>
+                        <SelectItem value="Young-Adult">Young Adult</SelectItem>
+
+                        <SelectItem value="Biography">Biography</SelectItem>
+                        <SelectItem value="Autobiography">
+                          Autobiography & Memoir
+                        </SelectItem>
+                        <SelectItem value="History">History</SelectItem>
+                        <SelectItem value="Science">Science</SelectItem>
+                        <SelectItem value="Technology">Technology</SelectItem>
+                        <SelectItem value="Programming">Programming</SelectItem>
+                        <SelectItem value="Math">Mathematics</SelectItem>
+                        <SelectItem value="Philosophy">Philosophy</SelectItem>
+                        <SelectItem value="Psychology">Psychology</SelectItem>
+                        <SelectItem value="Self-Help">Self-Help</SelectItem>
+                        <SelectItem value="Business">Business</SelectItem>
+                        <SelectItem value="Economics">Economics</SelectItem>
+                        <SelectItem value="Finance">
+                          Finance & Investing
+                        </SelectItem>
+                        <SelectItem value="Politics">Politics</SelectItem>
+                        <SelectItem value="Religion">
+                          Religion & Spirituality
+                        </SelectItem>
+                        <SelectItem value="Education">Education</SelectItem>
+                        <SelectItem value="Health">Health & Fitness</SelectItem>
+                        <SelectItem value="Cooking">Cooking & Food</SelectItem>
+                        <SelectItem value="Travel">Travel</SelectItem>
+                        <SelectItem value="Art">Art & Photography</SelectItem>
+                        <SelectItem value="Music">Music</SelectItem>
+                        <SelectItem value="Poetry">Poetry</SelectItem>
+                        <SelectItem value="Drama">Drama & Plays</SelectItem>
+                        <SelectItem value="Comics">
+                          Comics & Graphic Novels
+                        </SelectItem>
+                        <SelectItem value="Manga">Manga</SelectItem>
+                        <SelectItem value="Humor">Humor</SelectItem>
+                        <SelectItem value="True-Crime">True Crime</SelectItem>
+                        <SelectItem value="Adventure">Adventure</SelectItem>
+                        <SelectItem value="Classics">Classics</SelectItem>
+                        <SelectItem value="Nature">
+                          Nature & Environment
+                        </SelectItem>
+                        <SelectItem value="Sports">Sports</SelectItem>
+                        <SelectItem value="Parenting">
+                          Parenting & Family
+                        </SelectItem>
+                        <SelectItem value="Law">Law</SelectItem>
+                        <SelectItem value="Medicine">Medicine</SelectItem>
+                        <SelectItem value="Engineering">Engineering</SelectItem>
+                        <SelectItem value="Reference">Reference</SelectItem>
+                        <SelectItem value="Language-Learning">
+                          Language Learning
+                        </SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </Field>
+                )}
+              />
+            </div>
+            <div className="flex gap-7">
+              <Controller
+                name="pages"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Pages</FieldLabel>
+                    <Input
+                      {...field}
+                      value={(field.value as number | string) ?? ""}
+                      id={field.name}
+                      type="number"
+                      min={1}
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Total pages"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                name="price"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Price</FieldLabel>
+                    <Input
+                      {...field}
+                      value={(field.value as number | string) ?? ""}
+                      id={field.name}
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="Price"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Controller
+          name="publishedYear"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Published Year</FieldLabel>
+              <Input
+                {...field}
+                value={(field.value as number | string) ?? ""}
+                id={field.name}
+                type="number"
+                aria-invalid={fieldState.invalid}
+                placeholder="e.g. 2020"
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        {/* About Book */}
+        <Controller
+          name="description"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field
+              className="sm:col-span-2"
+              data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Description</FieldLabel>
+              <Textarea
+                {...field}
+                id={field.name}
+                rows={4}
+                aria-invalid={fieldState.invalid}
+                placeholder="Write about the book"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+      </CardContent>
+      <CardFooter>
+        <Button
+          type="submit"
+
+          className="w-full bg-teal-400 font-semibold text-black hover:bg-teal-600 sm:col-span-2"
+          size="lg"
+          disabled={!isDirty || isSubmitting}>
+          {isLoading ?
+            <>
+              <Loader2Icon className="animate-spin" /> Updating Book...
+            </>
+          : <>
+              <PenIcon /> Update Book Details
+            </>
+          }
+        </Button>
+      </CardFooter>
+    </form>
+  );
 };
 
 export default UpdateBookDetails;

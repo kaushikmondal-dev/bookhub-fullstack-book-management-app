@@ -1,28 +1,22 @@
 // components/Books/BookDetails.tsx
-import { buttonVariants } from "@/components/shadcnui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/shadcnui/card";
 import { Book } from "@generated/prisma/client";
-import { cn } from "cn";
 import {
   ArrowLeft,
   CalendarDays,
   DollarSign,
   FileText,
   Languages,
-  Pencil,
   Tags,
   User,
 } from "lucide-react";
-import type { Route } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import DeleteBook from "./DeleteBook";
 
 type BookDetailsProps = {
   book: Book;
@@ -35,7 +29,7 @@ const iconBox =
   "mb-2 flex size-9 items-center justify-center rounded-lg bg-linear-to-br from-emerald-400/20 to-sky-500/20 text-emerald-300";
 const labelClass = "text-muted-foreground text-xs tracking-wide uppercase";
 
-const BookDetails = ({ book, isOwner }: BookDetailsProps) => {
+const BookDetails = ({ book }: BookDetailsProps) => {
   return (
     <Card className="w-full border-white/10 bg-linear-to-br from-slate-800 via-slate-900 to-slate-950 shadow-xl shadow-emerald-500/10">
       <CardHeader className="gap-3">
@@ -128,35 +122,12 @@ const BookDetails = ({ book, isOwner }: BookDetailsProps) => {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <h2 className="text-lg font-semibold">About this book</h2>
-            <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-              {book.description}
-            </p>
+          <div className={infoBox}>
+            <h1 className={labelClass}>About this book</h1>
+            <p className="mt-0.5 font-medium">{book.description}</p>
           </div>
         </div>
       </CardContent>
-
-      {/*Only Owner */}
-
-      {isOwner && (
-        <CardFooter className="flex-wrap justify-end gap-3">
-          <Link
-            href={`/book/update-book/${book.id}` as Route}
-            className={cn(
-              buttonVariants({ size: "default" }),
-              "w-32 bg-sky-900 font-semibold text-white shadow-lg shadow-sky-500/20 hover:opacity-90",
-            )}>
-            <Pencil />
-            Edit Book
-          </Link>
-
-          <DeleteBook
-            bookId={book.id}
-            bookImage={book.image}
-          />
-        </CardFooter>
-      )}
     </Card>
   );
 };

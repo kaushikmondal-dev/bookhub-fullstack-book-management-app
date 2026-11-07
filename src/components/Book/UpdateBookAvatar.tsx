@@ -105,6 +105,9 @@ const UpdateBookAvatar = ({ bookId, bookPrevImage }: UpdateAvatarProps) => {
       <CardFooter className="grid gap-4">
         <Button
           type="button"
+          className={
+            "w-full bg-teal-400 font-semibold text-black hover:bg-teal-600 sm:col-span-2"
+          }
           onClick={updateBookAvatarHandler}
           disabled={isLoading || !isFile}>
           {isLoading ?

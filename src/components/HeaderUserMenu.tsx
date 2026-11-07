@@ -71,7 +71,7 @@ const HeaderUserMenu = ({ name, email, image, role }: UserMenuProps) => {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem render={<Link href="/" />}>
+        <DropdownMenuItem render={<Link href="/user-dashboard" />}>
           <LayoutDashboard /> Dashboard
         </DropdownMenuItem>
 

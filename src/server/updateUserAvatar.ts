@@ -10,9 +10,17 @@ export const updateUserAvatar = async (
   prevImageUrl: string | null | undefined,
   newImGFile: File,
 ) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return { isSuccess: false, msg: "Please Login First !❌" };
+  }
+
   try {
     if (prevImageUrl !== null) {
-      await rm(`./public/${prevImageUrl}`);
+      await rm(`./public/${prevImageUrl}`, { force: true });
     }
 
     const imageName = `${crypto.randomUUID()}.jpeg`;

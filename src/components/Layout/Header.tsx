@@ -8,7 +8,6 @@ import HeaderUserMenu from "../HeaderUserMenu";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../shadcnui/button";
 import NavLinks from "./NavLink";
-import ThemeToggleButton from "./ThemeToggleButton";
 
 const Header = async () => {
   const session = await auth.api.getSession({
@@ -19,29 +18,31 @@ const Header = async () => {
     <header
       className="fixed top-0 right-0 left-0 z-50 border-b shadow"
       aria-label="app-header">
-      <div className="mx-auto grid max-w-7xl grid-cols-3 items-center px-6 py-3">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-y-2 px-3 py-3 sm:px-6 md:grid md:grid-cols-3">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2">
+          className="order-1 flex items-center gap-2">
           <Image
             src="/logo.png"
             alt="BookHub logo"
             width={40}
             height={40}
-            className="block h-10 w-10 shrink-0 object-contain"
+
+            className="block h-12 w-auto shrink-0 object-contain"
           />
-          <span className="flex text-2xl leading-none font-semibold">
-            <span className="text-cyan-500">Book</span>
-            <span className="text-amber-600">Hub</span>
+          <span className="flex text-3xl leading-none font-bold">
+            <span className="text-teal-500">Book</span>
+            <span className="text-orange-600">Hub</span>
           </span>
         </Link>
 
         {/* Nav —*/}
-        <NavLinks />
-
+        <div className="order-3 flex w-full justify-center md:order-2 md:w-auto">
+          <NavLinks />
+        </div>
         {/* Right side and dropdown */}
-        <div className="flex items-center justify-end gap-4 font-semibold">
+        <div className="order-2 flex items-center justify-end gap-2 font-semibold sm:gap-4 md:order-3">
           {session ?
             <HeaderUserMenu
               name={session.user.name}
@@ -52,14 +53,14 @@ const Header = async () => {
               href="/login"
               className={cn(
                 buttonVariants({ size: "lg" }),
-                "flex items-center gap-2 bg-teal-500 text-black hover:text-white",
+                "flex items-center gap-2 bg-teal-400 text-black hover:bg-teal-500 hover:text-black",
               )}>
               <LogIn size={20} />
               Sign In
             </Link>
           }
 
-          <ThemeToggleButton />
+          {/* <ThemeToggleButton /> */}
         </div>
       </div>
     </header>

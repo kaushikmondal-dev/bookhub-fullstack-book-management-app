@@ -53,6 +53,8 @@ const page = async () => {
                     width={64}
                     height={64}
                     priority
+
+                    className="h-16 w-auto"
                   />
                 </div>
                 <CardTitle className="flex items-center gap-2 text-2xl">
@@ -78,6 +80,7 @@ const page = async () => {
                     width={64}
                     height={64}
                     priority
+                    className="h-16 w-auto"
                   />
                 </div>
                 <CardTitle className="flex items-center gap-2 text-2xl">

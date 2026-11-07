@@ -25,7 +25,7 @@ const page = async () => {
               width={80}
               height={80}
               priority
-              className="content-between"
+              className="h-16 w-auto"
             />
             <CardTitle className="text-2xl">Create Book</CardTitle>
           </CardHeader>

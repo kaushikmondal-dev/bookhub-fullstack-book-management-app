@@ -28,7 +28,7 @@ const page = async () => {
           <CardTitle className="text-2xl">
             <h1>Create Account</h1>
           </CardTitle>
-          <CardDescription>Login with your Google account</CardDescription>
+          <CardDescription>Create your account to get started</CardDescription>
         </CardHeader>
         <UserRegisterForm />
       </Card>

@@ -34,7 +34,7 @@ const DeleteBook = ({ bookId, bookImage }: DeleteBookProps) => {
       });
     }
     refresh();
-    push("/all-books");
+    push("/user-dashboard");
 
     setIsLoading(false);
   };
